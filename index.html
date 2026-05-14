@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>niku don 🐣 please don't be mad!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Pacifico&display=swap');
+
+  :root {
+    --pink: #ff6b9d;
+    --peach: #ffb347;
+    --mint: #a8edea;
+    --lavender: #c3b1e1;
+    --coral: #ff8c69;
+    --bg: #fff0f7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.18;
+    filter: blur(60px);
+    animation: blobFloat 8s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .blob1 { width: 400px; height: 400px; background: var(--pink); top: -100px; left: -100px; animation-delay: 0s; }
+  .blob2 { width: 300px; height: 300px; background: var(--lavender); bottom: -80px; right: -80px; animation-delay: 2s; }
+  .blob3 { width: 200px; height: 200px; background: var(--peach); top: 50%; left: 60%; animation-delay: 4s; }
+
+  @keyframes blobFloat {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(30px, 20px) scale(1.08); }
+  }
+
+  .floaty {
+    position: fixed;
+    animation: floatUp 10s linear infinite;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.5; }
+    90%  { opacity: 0.3; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  .card {
+    position: relative;
+    z-index: 10;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(20px);
+    border-radius: 32px;
+    padding: 44px 40px 40px;
+    max-width: 480px;
+    width: 92%;
+    box-shadow: 0 20px 60px rgba(255,107,157,0.18), 0 2px 12px rgba(0,0,0,0.06);
+    border: 2px solid rgba(255,107,157,0.15);
+    text-align: center;
+    animation: cardIn 0.7s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: scale(0.7) translateY(40px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .screen { display: none; animation: fadeSlide 0.5s cubic-bezier(.34,1.56,.64,1) both; }
+  .screen.active { display: block; }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .big-emoji {
+    font-size: 4.5rem;
+    display: block;
+    margin-bottom: 12px;
+    animation: bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.9rem;
+    color: var(--pink);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: #b07080;
+    margin-bottom: 28px;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .question-text {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #4a2030;
+    margin-bottom: 28px;
+    line-height: 1.4;
+  }
+
+  .progress-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #f0c0d0;
+    transition: all 0.4s ease;
+  }
+  .dot.active { background: var(--pink); transform: scale(1.3); }
+  .dot.done   { background: var(--coral); }
+
+  .btn-group {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 800;
+    padding: 13px 34px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(.34,1.56,.64,1);
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    border-radius: inherit;
+    transition: opacity 0.15s;
+  }
+  .btn:hover::after { opacity: 0.15; }
+  .btn:hover { transform: scale(1.07) translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+  .btn:active { transform: scale(0.96); }
+
+  .btn-yes {
+    background: linear-gradient(135deg, #ff6b9d, #ff8c69);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255,107,157,0.4);
+  }
+  .btn-start {
+    background: linear-gradient(135deg, #ff6b9d, #ffb347);
+    color: white;
+    padding: 15px 44px;
+    font-size: 1.15rem;
+    box-shadow: 0 4px 20px rgba(255,107,157,0.45);
+  }
+
+  /* The escaping NO button */
+  .btn-no-run {
+    position: absolute;
+    background: linear-gradient(135deg, var(--lavender), #9bb5f5);
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 12px 28px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(195,177,225,0.4);
+    transition: left 0.15s ease, top 0.15s ease;
+    z-index: 20;
+  }
+
+  .reaction-text {
+    font-size: 1.05rem;
+    color: #d05080;
+    font-weight: 700;
+    margin-top: 14px;
+    min-height: 28px;
+    animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  /* Final screen */
+  .final-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: wiggle 1.2s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+  }
+
+  .final-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.7rem;
+    color: var(--pink);
+    margin-bottom: 14px;
+  }
+
+  .final-msg {
+    font-size: 1.02rem;
+    color: #5a2040;
+    font-weight: 600;
+    line-height: 1.75;
+    background: linear-gradient(135deg, #fff0f5, #fdf0ff);
+    border-radius: 20px;
+    padding: 20px 22px;
+    margin-bottom: 22px;
+    border: 1.5px solid rgba(255,107,157,0.18);
+    text-align: left;
+  }
+
+  .hearts-row {
+    font-size: 1.5rem;
+    letter-spacing: 5px;
+    animation: heartPulse 1s ease-in-out infinite alternate;
+    display: block;
+    text-align: center;
+  }
+  @keyframes heartPulse {
+    from { transform: scale(1); }
+    to   { transform: scale(1.15); }
+  }
+
+  .confetti-piece {
+    position: fixed;
+    border-radius: 2px;
+    animation: confettiFall 3s ease-in forwards;
+    pointer-events: none;
+    z-index: 100;
+  }
+  @keyframes confettiFall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) rotate(720deg); opacity: 0.3; }
+  }
+
+  .shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  }
+  @keyframes shake {
+    10%, 90% { transform: translateX(-3px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
+  }
+
+  /* question wrapper needs overflow visible so NO btn can escape */
+  #btn-group-q {
+    position: relative;
+    min-height: 60px;
+    overflow: visible;
+  }
+</style>
+</head>
+<body>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<div class="card" id="card">
+
+  <!-- SCREEN 0: INTRO -->
+  <div class="screen active" id="screen-0">
+    <span class="big-emoji">🐣</span>
+    <h1>hey niku don!</h1>
+    <p class="subtitle">
+      I know you might be a little upset with me right now 🥺<br>
+      but just give me one minute, please?
+    </p>
+    <div class="btn-group">
+      <button class="btn btn-start" onclick="startGame()">okay fine, go ahead 🦦</button>
+    </div>
+  </div>
+
+  <!-- SCREENS 1–5: QUESTIONS -->
+  <div class="screen" id="screen-q">
+    <div class="progress-dots" id="dots"></div>
+    <span class="big-emoji" id="q-emoji">🐣</span>
+    <p class="question-text" id="q-text"></p>
+    <div id="btn-group-q">
+      <button class="btn btn-yes" id="btn-yes" onclick="answerYes()">Yes 😤</button>
+      <button class="btn-no-run" id="btn-no" onmouseover="runAway()" ontouchstart="runAway()">No 😌</button>
+    </div>
+    <p class="reaction-text" id="reaction"></p>
+  </div>
+
+  <!-- SCREEN: FINAL APOLOGY -->
+  <div class="screen" id="screen-final">
+    <span class="final-emoji">🦥</span>
+    <h1 class="final-title">I'm so sorry, niku don 🌸</h1>
+    <div class="final-msg">
+      I genuinely mean it — I'm really sorry 🐣<br><br>
+      Whatever happened, whatever I did that hurt you —<br>
+      <strong>that was completely on me.</strong><br><br>
+      Please don't just leave my messages on read like that 🥺<br>
+      One reply isn't that hard, and it means the world to me ✨<br><br>
+      Talking to you is honestly<br>
+      <strong>the best part of my day 🌼</strong><br><br>
+      So please… don't stay mad at me 🦦💛<br>
+      Come back, niku don. I miss you. 🐣
+    </div>
+    <span class="hearts-row">🐣🩷🦦🌸🦥</span>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    emoji: "😤",
+    text: "Are you mad at me? 🐣",
+    yes: "Okay… I figured. I'm really sorry 😔",
+    no: "Oh thank goodness 🥹"
+  },
+  {
+    emoji: "😠",
+    text: "Are you upset with me? 🦦",
+    yes: "Okay okay… I'm sorry, I really am 🥺",
+    no: "Phew! That's a relief 🐣✨"
+  },
+  {
+    emoji: "🙄",
+    text: "Are you ignoring me on purpose? 🦥",
+    yes: "Niku don… that really hurts 😢",
+    no: "Then please just reply! 🥹"
+  },
+  {
+    emoji: "😶",
+    text: "Did I say something that bothered you? 🌸",
+    yes: "Please tell me what it was 🐣",
+    no: "Okay good, but still… sorry 🦦"
+  },
+  {
+    emoji: "💔",
+    text: "Are we not okay right now? 🥺",
+    yes: "That can't be true… let's fix it 🌸",
+    no: "Then come back already! 🤗"
+  },
+];
+
+let current = 0;
+let noRunCount = 0;
+let started = false;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function startGame() {
+  started = true;
+  current = 0;
+  showScreen('screen-q');
+  loadQuestion();
+  spawnFloaties();
+}
+
+function loadQuestion() {
+  const q = questions[current];
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('reaction').textContent = '';
+  noRunCount = 0;
+  resetNoBtn();
+  buildDots();
+}
+
+function buildDots() {
+  const d = document.getElementById('dots');
+  d.innerHTML = '';
+  questions.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i < current ? ' done' : i === current ? ' active' : '');
+    d.appendChild(dot);
+  });
+}
+
+function answerYes() {
+  const q = questions[current];
+  const reactionEl = document.getElementById('reaction');
+  reactionEl.textContent = q.yes;
+  reactionEl.style.animation = 'none';
+  void reactionEl.offsetWidth;
+  reactionEl.style.animation = '';
+
+  const card = document.getElementById('card');
+  card.classList.add('shake');
+  setTimeout(() => card.classList.remove('shake'), 500);
+
+  setTimeout(() => nextQ(), 1300);
+}
+
+function nextQ() {
+  current++;
+  if (current >= questions.length) {
+    showScreen('screen-final');
+    launchConfetti();
+  } else {
+    showScreen('screen-q');
+    loadQuestion();
+  }
+}
+
+function resetNoBtn() {
+  const btn = document.getElementById('btn-no');
+  btn.style.position = 'absolute';
+  btn.style.left = '55%';
+  btn.style.top = '50%';
+  btn.style.transform = 'translateY(-50%)';
+}
+
+function runAway() {
+  noRunCount++;
+  const btn = document.getElementById('btn-no');
+  const card = document.getElementById('card');
+  const cw = card.offsetWidth - 80;
+  const ch = card.offsetHeight;
+
+  // Random jump within card bounds
+  const rx = Math.floor(Math.random() * (cw - 90));
+  const ry = Math.floor(Math.random() * (ch - 120)) - ch / 2;
+
+  btn.style.left = rx + 'px';
+  btn.style.top = ry + 'px';
+  btn.style.transform = 'none';
+
+  const taunts = [
+    "You can't catch me! 😏",
+    "Hehe, try harder 🐣",
+    "Nope~ not clicking that 🦥",
+    "Keep trying! 😌",
+    "Almost… but nope 😂"
+  ];
+
+  const reactionEl = document.getElementById('reaction');
+  if (noRunCount >= 2) {
+    reactionEl.textContent = taunts[Math.min(noRunCount - 2, taunts.length - 1)];
+    reactionEl.style.animation = 'none';
+    void reactionEl.offsetWidth;
+    reactionEl.style.animation = '';
+  }
+
+  if (noRunCount >= 5) {
+    reactionEl.textContent = "Fine fine… you win, I give up 😤";
+    btn.style.pointerEvents = 'none';
+    setTimeout(() => nextQ(), 1100);
+  }
+}
+
+function launchConfetti() {
+  const colors = ['#ff6b9d','#ffb347','#a8edea','#c3b1e1','#ff8c69','#ffd6e7','#b5ead7','#ffc8dd'];
+  for (let i = 0; i < 80; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-10px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.width  = (7 + Math.random() * 9) + 'px';
+      c.style.height = (7 + Math.random() * 9) + 'px';
+      c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      c.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+      c.style.animationDelay   = (Math.random() * 0.6) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }, i * 28);
+  }
+}
+
+function spawnFloaties() {
+  const emojis = ['🐣','🦦','🦥','🌸','✨','💛','🥺','💕','🌼','🍑','🩷'];
+  setInterval(() => {
+    if (!started) return;
+    const f = document.createElement('div');
+    f.className = 'floaty';
+    f.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    f.style.left = Math.random() * 100 + 'vw';
+    f.style.animationDuration = (8 + Math.random() * 6) + 's';
+    f.style.animationDelay = '0s';
+    f.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+    document.body.appendChild(f);
+    setTimeout(() => f.remove(), 15000);
+  }, 900);
+}
+</script>
+</body>
+</html>
